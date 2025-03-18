@@ -3,7 +3,7 @@ import os
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
-from keep_alive import keep_alive
+
 
 # Lade die .env Datei
 load_dotenv()
@@ -140,8 +140,6 @@ async def on_ready():
     print(f"✅ Bot {bot.user} ist online!")
 
 
-# Keep Alive starten (verhindert, dass Replit den Bot stoppt)
-keep_alive()
 
 # Bot starten
 bot.run(TOKEN)
