@@ -6,3 +6,7 @@ pytesseract
 pillow
 requests
 python-dotenv
+easyocr
+torch
+torchvision
+opencv-python-headless
