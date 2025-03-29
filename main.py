@@ -1,10 +1,8 @@
 import discord
-from discord.ext import commands
 import os
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
-
 
 # Lade die .env Datei
 load_dotenv()
@@ -32,7 +30,7 @@ BEWERBUNGEN_LOG_CHANNEL_ID = 1336053499439353917  # Ersetze mit der ID des Chann
 async def on_member_join(member):
     channel = bot.get_channel(LOG_CHANNEL_ID)
     if channel:
-        await channel.send(f"👋 {member.mention} ist dem Server beigetreten!")
+        await channel.send(f"👋 {member.mention} ({member.name}) ist dem Server beigetreten!")
 
 
 # Event: Ein User verlässt den Server
@@ -40,7 +38,7 @@ async def on_member_join(member):
 async def on_member_remove(member):
     channel = bot.get_channel(LOG_CHANNEL_ID)
     if channel:
-        await channel.send(f"❌ {member.mention} hat den Server verlassen.")
+        await channel.send(f"❌ {member.mention} ({member.name}) hat den Server verlassen.")
 
 
 # Event: Ein User wird gebannt
@@ -48,7 +46,7 @@ async def on_member_remove(member):
 async def on_member_ban(guild, user):
     channel = bot.get_channel(LOG_CHANNEL_ID)
     if channel:
-        await channel.send(f"⛔ {user.mention} wurde vom Server gebannt!")
+        await channel.send(f"⛔ {user.mention} ({user.name}) wurde vom Server gebannt!")
 
 
 # Slash-Command: /ping
@@ -127,6 +125,9 @@ async def on_message(message):
             await log_message.add_reaction("👍")  # Daumen hoch Emoji
             await log_message.add_reaction("👎")  # Daumen runter Emoji
 
+    if message.content.startswith("/"):
+        return  # Ignoriere Slash-Commands, damit sie weiter funktionieren
+
     await bot.process_commands(message)
 
 
@@ -139,8 +140,6 @@ async def on_ready():
     except Exception as e:
         print(f"❌ Fehler beim Synchronisieren: {e}")
     print(f"✅ Bot {bot.user} ist online!")
-
-
 
 # Bot starten
 bot.run(TOKEN)
